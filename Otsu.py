@@ -1,38 +1,43 @@
-def Otsu(Thresholds,image=0):
-    # Thresholds
+import numpy as np
+from PIL import Image
+
+def Otsu(Thresholds,image):
     Thresholds.append(256)
     Thresholds.insert(0, 0)
 
-    hist = []
-    for i in range(256):
-        hist.append(int(input()))  # Taking histogram input from a text file
-    s = sum(hist)
-    for i in range(len(hist)):
-        hist[i] = hist[i] / s
+    img = Image.open(image).convert("L")
+    img=np.asarray(img)
 
-    cumulative_sum = []  # declaractions
+    hist = [0] * 256               
+    for i in range(len(img)):
+        for j in range(len(img[0])):
+            hist[int(img[i][j])] += 1
+
+    Total_Pixels = len(img)*len(img[0])
+
+    for i in range(len(hist)):                                              # Probabilities
+        hist[i] = hist[i] / Total_Pixels
+
+    cumulative_sum = []                                                     # declaractions
     cumulative_mean = []
     global_mean = 0
     Sigma = 0
 
     for i in range(len(Thresholds)-1):
-        # Cumulative sum of each Class
-        cumulative_sum.append(sum(hist[Thresholds[i]:Thresholds[i + 1]]))
+        cumulative_sum.append(sum(hist[Thresholds[i]:Thresholds[i + 1]]))   # Cumulative sum of each Class
 
         cumulative = 0
         for j in range(Thresholds[i], Thresholds[i + 1]):
-            cumulative = cumulative + (j+1) * hist[j]
+            cumulative = cumulative + (j + 1) * hist[j]
+           
+        cumulative_mean.append(cumulative / cumulative_sum[-1])             # Cumulative mean of each Class
 
-        # Cumulative mean of each Class
-        cumulative_mean.append(cumulative / cumulative_sum[-1])
+        global_mean = global_mean + cumulative                              # Global Intensity Mean
 
-        # Global Intensity Mean
-        global_mean = global_mean + cumulative
-
-    for i in range(len(cumulative_mean)):                                 # Computing Sigma
+    for i in range(len(cumulative_mean)):                                   # Computing Sigma
         Sigma = Sigma + (cumulative_sum[i] *
                         ((cumulative_mean[i] - global_mean) ** 2))
 
     return(Sigma)
 
-print(Otsu([73, 109, 136, 160, 188]))
+print(Otsu([73, 109, 136, 160, 188],'lena.tiff'))
