@@ -19,7 +19,7 @@ for i in range(len(Thresholds)-1):
     
     cumulative = 0
     for j in range(Thresholds[i], Thresholds[i + 1]):
-        cumulative = cumulative + j * hist[j]
+        cumulative = cumulative + (j+1) * hist[j]
     
     cumulative_mean.append(cumulative / cumulative_sum[-1])           # Cumulative mean of each Class
      
