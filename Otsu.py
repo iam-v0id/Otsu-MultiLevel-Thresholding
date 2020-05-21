@@ -39,5 +39,3 @@ def Otsu(Thresholds,image):
                         ((cumulative_mean[i] - global_mean) ** 2))
 
     return(Sigma)
-
-print(Otsu([73, 109, 136, 160, 188],'lena.tiff'))
