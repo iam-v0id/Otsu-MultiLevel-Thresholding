@@ -4,7 +4,7 @@ from PIL import Image
 def Otsu(Thresholds,image):
     Thresholds.append(256)
     Thresholds.insert(0, 0)
-
+    Thresholds.sort()
     img = Image.open(image).convert("L")
     img=np.asarray(img)
 
