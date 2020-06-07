@@ -1,5 +1,6 @@
 import numpy as np
 from PIL import Image
+import sys.float_info.epsilon as eps
 
 def Otsu(Thresholds,image):
     Thresholds.append(256)
@@ -24,7 +25,7 @@ def Otsu(Thresholds,image):
     Sigma = 0
 
     for i in range(len(Thresholds)-1):
-        cumulative_sum.append(sum(hist[Thresholds[i]:Thresholds[i + 1]]))   # Cumulative sum of each Class
+        cumulative_sum.append(sum(hist[Thresholds[i]:Thresholds[i + 1]])+eps)   # Cumulative sum of each Class
 
         cumulative = 0
         for j in range(Thresholds[i], Thresholds[i + 1]):
