@@ -3,6 +3,7 @@ from PIL import Image
 import sys.float_info.epsilon as eps
 
 def Otsu(Thresholds,image):
+    """Given a list of Thresholds and an image location , returns the fitness using Otsu's Objective function"""
     Thresholds.append(256)
     Thresholds.insert(0, 0)
     Thresholds.sort()
